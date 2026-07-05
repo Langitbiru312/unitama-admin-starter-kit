@@ -27,8 +27,8 @@ class UserFactory extends Factory
     return [
         'name' => fake()->name(),
         'email' => fake()->unique()->safeEmail(),
-        'password' => bcrypt('password'), // password standar untuk semua data dummy
-        'role' => fake()->randomElement(['Admin', 'Superadmin']), // Mengacak role sesuai opsi proyekmu
+        'password' => static::$password ??= Hash::make('123'), // password standar untuk semua data dummy
+        'remember_token' => Str::random(10), // Mengacak role sesuai opsi proyekmu
     ];
 }
     /**

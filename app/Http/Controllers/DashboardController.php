@@ -5,15 +5,15 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Pest\Support\View;
 
-class DasboardController extends Controller
+class DashboardController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return View('dasboard.index', [ 
-        'title' => 'Dasboard',
+        return View('dashboard.index', [ 
+        'title' => 'Dashboard',
 
         ]);
     }

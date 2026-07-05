@@ -66,79 +66,89 @@
         </nav>
     </header>
 
-    <aside id="sidebar" class="sidebar">
-        <ul class="sidebar-nav" id="sidebar-nav" style="list-style: none; padding-left: 0;">
-            <li class="nav-item mb-2">
-                <a class="nav-link {{ request()->is('dasboard') ? '' : 'collapsed' }} d-flex align-items-center gap-2 p-2 rounded text-decoration-none"
-                    href="{{ url('/dasboard') }}">
+    <<aside id="sidebar" class="sidebar">
+
+        <ul class="sidebar-nav" id="sidebar-nav">
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="{{ route('dashboard.index') }}">
                     <i class="bi bi-grid"></i>
                     <span>Dashboard</span>
                 </a>
             </li>
+
             <li class="nav-item">
-                <a class="nav-link {{ request()->routeIs('user.*') ? '' : 'collapsed' }} d-flex align-items-center gap-2 p-2 rounded text-decoration-none"
-                    href="{{ route('user.index') }}">
-                    <i class="bi bi-people"></i>
+                <a class="nav-link collapsed" href="{{ route('setting.index') }}">
+                    <i class="bi bi-person"></i>
+                    <span>Setting</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="{{ route('user.index') }}">
+                    <i class="bi bi-person"></i>
                     <span>User</span>
                 </a>
             </li>
+
         </ul>
-    </aside>
 
-    <main id="main" class="main" style="margin-top: 60px; padding: 20px;">
-        {{ $slot }}
-    </main>
+        </aside>
 
-    {{-- Modal Delete Global --}}
-    <div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <form action="" method="POST" id="form-delete">
-                    @method('DELETE')
-                    @csrf
-                    <div class="modal-body">
-                        <h5 class="mb-0">Anda yakin ingin menghapus data ini?</h5>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                        <button type="submit" class="btn btn-danger">Ya, Hapus data</button>
-                    </div>
-                </form>
+        <main id="main" class="main" style="margin-top: 60px; padding: 20px;">
+            {{ $slot }}
+        </main>
+
+        {{-- Modal Delete Global --}}
+        <div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form action="" method="POST" id="form-delete">
+                        @method('DELETE')
+                        @csrf
+                        <div class="modal-body">
+                            <h5 class="mb-0">Anda yakin ingin menghapus data ini?</h5>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                            <button type="submit" class="btn btn-danger">Ya, Hapus data</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
 
-    @stack('modals')
+        @stack('modals')
 
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" type="text/javascript"></script>
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" type="text/javascript"></script>
 
-    <script>
-        $(document).ready(function() {
-            // Deteksi otomatis tabel ber-class 'datatable' dan paksa render fitur Search & Pagination
-            const dataTableEl = document.querySelector('.datatable');
-            if (dataTableEl) {
-                new simpleDatatables.DataTable(dataTableEl, {
-                    perPage: 5,
-                    perPageSelect: [5, 10, 25, 50],
-                    searchable: true,
-                    labels: {
-                        placeholder: "Search...",
-                        perPage: "entries per page",
-                        noRows: "No entries found",
-                        info: "Showing {start} to {end} of {rows} entries",
-                    }
+        <script>
+            $(document).ready(function() {
+                // Deteksi otomatis tabel ber-class 'datatable' dan paksa render fitur Search & Pagination
+                const dataTableEl = document.querySelector('.datatable');
+                if (dataTableEl) {
+                    new simpleDatatables.DataTable(dataTableEl, {
+                        perPage: 5,
+                        perPageSelect: [5, 10, 25, 50],
+                        searchable: true,
+                        labels: {
+                            placeholder: "Search...",
+                            perPage: "entries per page",
+                            noRows: "No entries found",
+                            info: "Showing {start} to {end} of {rows} entries",
+                        }
+                    });
+                }
+
+                // Handler Modal Delete
+                $(document).on('click', '.btn-delete', function() {
+                    $('#form-delete').attr('action', $(this).data('route'));
                 });
-            }
-
-            // Handler Modal Delete
-            $(document).on('click', '.btn-delete', function() {
-                $('#form-delete').attr('action', $(this).data('route'));
             });
-        });
-    </script>
-    @stack('scripts')
+        </script>
+        @stack('scripts')
 </body>
 
 </html>

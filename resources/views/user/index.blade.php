@@ -76,4 +76,38 @@
             </div>
         </div>
     @endpush
+
+    @push('scripts')
+        <script>
+            $(document).ready(function() {
+
+                $('.btn-detail').click(function() {
+
+                    let url = $(this).data('route');
+
+                    $('#modal-detail').html(`
+            <div class="text-center py-5">
+                <div class="spinner-border text-primary"></div>
+            </div>
+        `);
+
+                    $.get(url, function(response) {
+
+                        $('#modal-detail').html(response);
+
+                    }).fail(function() {
+
+                        $('#modal-detail').html(`
+                <div class="alert alert-danger">
+                    Gagal mengambil data user.
+                </div>
+            `);
+
+                    });
+
+                });
+
+            });
+        </script>
+    @endpush
 </x-app>

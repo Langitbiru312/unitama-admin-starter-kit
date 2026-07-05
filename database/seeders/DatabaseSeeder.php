@@ -14,5 +14,10 @@ class DatabaseSeeder extends Seeder
     {
         // Perintah untuk membuat 50 data user tiruan sekaligus
         User::factory(50)->create();
+
+         $this->call([
+            UserSeeder::class,
+            SettingSeeder::class,
+        ]);
     }
 }
