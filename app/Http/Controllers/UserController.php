@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -11,9 +13,9 @@ class UserController extends Controller
      */
     public function index()
     {
-         return View('user.index', [ 
-        'title' => 'User',
-
+        return view('user.index', [
+            'title' => 'User',
+            'users' => User::latest()->get()
         ]);
     }
 
@@ -22,7 +24,9 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        return view('user.create', [
+            'title' => 'Tambah User',
+        ]);
     }
 
     /**
@@ -30,38 +34,52 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
+        // 1. Validasi Input Form (Gabungan aturan & pesan kustom)
+        $validated = $request->validate([
+            'name'            => 'required|string|max:255',
+            'email'           => 'required|string|email|max:255|unique:users,email',
+            'password'        => 'required|string|min:8',
+            'passwordconfirm' => 'required|same:password',
+            'avatar'          => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'role'            => 'required|in:Superadmin,Admin',
+        ], [
+            'name.required'            => 'Nama tidak boleh kosong.',
+            'name.max'                 => 'Nama tidak boleh lebih dari :max karakter.',
+            'email.required'           => 'Email tidak boleh kosong.',
+            'email.email'              => 'Format email tidak valid.',
+            'email.unique'             => 'Email sudah terdaftar.',
+            'password.required'        => 'Password tidak boleh kosong.',
+            'password.min'             => 'Password minimal harus :min karakter.',
+            'passwordconfirm.required' => 'Konfirmasi password tidak boleh kosong.',
+            'passwordconfirm.same'     => 'Konfirmasi password harus sama dengan password.',
+            'role.required'            => 'Role harus dipilih.',
+            'role.in'                  => 'Role yang dipilih tidak valid.',
+        ]);
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
+        // 2. Proses Penyimpanan Data (Menggunakan Try-Catch & Database Transaction)
+        try {
+            // Mengecek apakah ada file avatar yang diunggah
+            if ($request->file('avatar')) {
+                $validated['avatar'] = $request->file('avatar')->store('avatar', 'public');
+            }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
+            // Memulai transaksi database
+            DB::beginTransaction();
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
+            // Menyimpan data user baru ke database
+            User::create($validated);
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+            // Menyimpan perubahan jika tidak ada error
+            DB::commit();
+
+            // Mengalihkan halaman kembali ke indeks dengan pesan sukses
+            return to_route('user.index')->withSuccess('Data berhasil ditambahkan!');
+        } catch (\Exception $e) {
+            // Membatalkan transaksi jika terjadi error/kesalahan
+            DB::rollBack();
+
+            // Mengembalikan ke halaman sebelumnya dengan pesan error bawaan
+            return back()->withErrors(['error' => 'Terjadi kesalahan: ' . $e->getMessage()]);
+        }
     }
 }
