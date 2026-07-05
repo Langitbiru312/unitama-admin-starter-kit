@@ -2,22 +2,17 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\User; // Pastikan memanggil model User
 
 class DatabaseSeeder extends Seeder
 {
-    use WithoutModelEvents;
-
     /**
      * Seed the application's database.
      */
     public function run(): void
     {
-        $this->call([
-        UserSeeder::class,  
-
-        ]);
+        // Perintah untuk membuat 50 data user tiruan sekaligus
+        User::factory(50)->create();
     }
 }

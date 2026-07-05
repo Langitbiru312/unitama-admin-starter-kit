@@ -4,119 +4,49 @@
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>{{ $title ?? 'Daftar User' }} - NiceAdmin</title>
 
-    <title>{{ $title }}</title>
-    <meta content="" name="description">
-    <meta content="" name="keywords">
-    <meta content="" name="author">
-
-
-    <!-- Favicons -->
-    <link href="{{ asset('niceadmin/img/favicon.png') }}" rel="icon">
-    <link href="{{ asset('niceadmin/img/apple-touch-icon.png') }}" rel="apple-touch-icon">
-
-    <!-- Google Fonts -->
-    <link href="https://fonts.gstatic.com" rel="preconnect">
     <link
-        href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+        href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700|Nunito:300,400,600,700|Poppins:300,400,500,600,700"
         rel="stylesheet">
 
-    <!-- Vendor CSS Files -->
-    <link href="{{ asset('niceadmin/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('niceadmin/vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet">
-    <link href="{{ asset('niceadmin/vendor/boxicons/css/boxicons.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('niceadmin/vendor/remixicon/remixicon.css') }}" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet">
 
-    <!-- add on -->
-    <link rel="stylesheet" href="{{ asset('niceadmin/vendor/dataTables/css/dataTables.bootstrap5.css') }}">
-    <link href="{{ asset('niceadmin/vendor/select2/css/select2.min.css') }}" rel="stylesheet" />
-    <link href="{{ asset('niceadmin/vendor/select2/css/select2-bootstrap-5-theme.min.css') }}" rel="stylesheet" />
-
-    <!-- Template Main CSS File -->
     <link href="{{ asset('niceadmin/css/style.css') }}" rel="stylesheet">
-
-    <style>
-        label.required::after {
-            content: " *";
-            color: red;
-            font-weight: bold;
-        }
-
-        table.dataTable thead th {
-            background-color: #0d6efd !important;
-            color: white !important;
-            text-align: center !important;
-        }
-
-        #data-table td {
-            text-align: center;
-            vertical-align: middle;
-        }
-
-        html,
-        body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-        }
-
-        #main {
-            flex: 1;
-        }
-
-        .footer {
-            text-align: center !important;
-            padding: 15px 0;
-            background: #fff;
-        }
-    </style>
-
-    <!-- =======================================================
-  * Template Name: NiceAdmin
-  * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
-  * Updated: Apr 20 2024 with Bootstrap v5.3.3
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
 </head>
 
 <body>
 
-    <!-- ======= Header ======= -->
-    <header id="header" class="header fixed-top d-flex align-items-center">
-
-        <div class="d-flex align-items-center justify-content-between">
-            <a href="{{ route('dasboard.index') }}" class="logo d-flex align-items-center">
-                <img src="{{ asset('niceadmin/img/logo.png') }}" alt="">
-                <span class="d-none d-lg-block">NiceAdmin</span>
+    <header id="header" class="header fixed-top d-flex align-items-center justify-content-between px-3">
+        <div class="d-flex align-items-center">
+            <a href="#" class="logo d-flex align-items-center text-decoration-none">
+                <span class="d-none d-lg-block fw-bold text-primary fs-4">NiceAdmin</span>
             </a>
-            <i class="bi bi-list toggle-sidebar-btn"></i>
-        </div><!-- End Logo -->
+            <i class="bi bi-list toggle-sidebar-btn ms-3" style="cursor: pointer; font-size: 24px;"></i>
+        </div>
 
         <nav class="header-nav ms-auto">
-            <ul class="d-flex align-items-center">
-
+            <ul class="d-flex align-items-center list-style-none mb-0" style="list-style: none;">
                 <li class="nav-item dropdown pe-3">
-
                     <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#"
                         data-bs-toggle="dropdown">
-                        <img src="{{ asset('niceadmin/img/profile-img.jpg') }}" alt="Profile" class="rounded-circle">
-                        <span class="d-none d-md-block dropdown-toggle ps-2">K. Anderson</span>
-                    </a><!-- End Profile Iamge Icon -->
+                        <img src="https://ui-avatars.com/api/?name=K.+Anderson&background=0D6EFD&color=fff"
+                            alt="Profile" class="rounded-circle" width="36" height="36">
+                        <span class="d-none d-md-block dropdown-toggle ps-2 fw-semibold">K. Anderson</span>
+                    </a>
 
                     <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
-                        <li class="dropdown-header">
-                            <h6>Kevin Anderson</h6>
-                            <span>Web Designer</span>
+                        <li class="dropdown-header text-center p-3">
+                            <h6 class="fw-bold mb-0">K. Anderson</h6>
+                            <small class="text-muted">Web Designer</small>
                         </li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-
                         <li>
-                            <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
+                            <a class="dropdown-item d-flex align-items-center gap-2" href="#">
                                 <i class="bi bi-person"></i>
                                 <span>My Profile</span>
                             </a>
@@ -124,143 +54,89 @@
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-
                         <li>
-                            <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
-                                <i class="bi bi-gear"></i>
-                                <span>Account Settings</span>
-                            </a>
-                        </li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-
-                        <li>
-                            <a class="dropdown-item d-flex align-items-center" href="#">
+                            <a class="dropdown-item d-flex align-items-center gap-2" href="#">
                                 <i class="bi bi-box-arrow-right"></i>
                                 <span>Sign Out</span>
                             </a>
                         </li>
-
-                    </ul><!-- End Profile Dropdown Items -->
-                </li><!-- End Profile Nav -->
-
+                    </ul>
+                </li>
             </ul>
-        </nav><!-- End Icons Navigation -->
+        </nav>
+    </header>
 
-    </header><!-- End Header -->
-
-    <!-- ======= Sidebar ======= -->
     <aside id="sidebar" class="sidebar">
-
-        <ul class="sidebar-nav" id="sidebar-nav">
-
-            <li class="nav-heading">Pages</li>
-
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="{{ route('dasboard.index') }}">
+        <ul class="sidebar-nav" id="sidebar-nav" style="list-style: none; padding-left: 0;">
+            <li class="nav-item mb-2">
+                <a class="nav-link {{ request()->is('dasboard') ? '' : 'collapsed' }} d-flex align-items-center gap-2 p-2 rounded text-decoration-none"
+                    href="{{ url('/dasboard') }}">
                     <i class="bi bi-grid"></i>
                     <span>Dashboard</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link collapsed" href="{{ route('user.index') }}">
-                    <i class='bx bx-user-pin'></i>
+                <a class="nav-link {{ request()->routeIs('user.*') ? '' : 'collapsed' }} d-flex align-items-center gap-2 p-2 rounded text-decoration-none"
+                    href="{{ route('user.index') }}">
+                    <i class="bi bi-people"></i>
                     <span>User</span>
                 </a>
             </li>
-
-            {{-- <li class="nav-item">
-                <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
-                    <i class="bi bi-menu-button-wide"></i><span>Components</span><i
-                        class="bi bi-chevron-down ms-auto"></i>
-                </a>
-                <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-                    <li>
-                        <a href="components-alerts.html">
-                            <i class="bi bi-circle"></i><span>Alerts</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="components-accordion.html">
-                            <i class="bi bi-circle"></i><span>Accordion</span>
-                        </a>
-                    </li>
-                </ul>
-            </li> --}}
-
         </ul>
+    </aside>
 
-    </aside><!-- End Sidebar-->
-
-    <main id="main" class="main flex-grow-1">
-
+    <main id="main" class="main" style="margin-top: 60px; padding: 20px;">
         {{ $slot }}
+    </main>
 
-    </main><!-- End #main -->
-
-    <!-- ======= Footer ======= -->
-    <footer id="footer" class="footer">
-        <div class="copyright">
-            &copy; Copyright <strong><span>NiceAdmin</span></strong>. All Rights Reserved
+    {{-- Modal Delete Global --}}
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form action="" method="POST" id="form-delete">
+                    @method('DELETE')
+                    @csrf
+                    <div class="modal-body">
+                        <h5 class="mb-0">Anda yakin ingin menghapus data ini?</h5>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-danger">Ya, Hapus data</button>
+                    </div>
+                </form>
+            </div>
         </div>
-        <div class="credits">
-            <!-- All the links in the footer should remain intact. -->
-            <!-- You can delete the links only if you purchased the pro version. -->
-            <!-- Licensing information: https://bootstrapmade.com/license/ -->
-            <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
-            Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
-        </div>
-    </footer>
-    <!-- End Footer -->
-
-    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
-            class="bi bi-arrow-up-short"></i></a>
+    </div>
 
     @stack('modals')
 
-    <!-- add on -->
-    <script src="{{ asset('niceadmin/vendor/jquery/jquery-3.7.1.min.js') }}"></script>
-    <script src="{{ asset('niceadmin/vendor/parsley/parsley.min.js') }}"></script>
-    <script src="{{ asset('niceadmin/vendor/sweetalert2/sweetalert2@11') }}"></script>
-    <script src="{{ asset('niceadmin/vendor/dataTables/js/dataTables.js') }}"></script>
-    <script src="{{ asset('niceadmin/vendor/dataTables/js/dataTables.bootstrap5.js') }}"></script>
-
-    <!-- Vendor JS Files -->
-    <script src="{{ asset('niceadmin/vendor/apexcharts/apexcharts.min.js') }}"></script>
-    <script src="{{ asset('niceadmin/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ asset('niceadmin/vendor/tinymce/tinymce.min.js') }}"></script>
-    <script src="{{ asset('niceadmin/vendor/select2/js/select2.min.js') }}"></script>
-
-    <!-- Template Main JS File -->
-    <script src="{{ asset('niceadmin/js/main.js') }}"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" type="text/javascript"></script>
 
     <script>
-        new DataTable('#data-table', {
-            pageLength: 5,
-            lengthMenu: [5, 10, 25, 50, 100]
+        $(document).ready(function() {
+            // Deteksi otomatis tabel ber-class 'datatable' dan paksa render fitur Search & Pagination
+            const dataTableEl = document.querySelector('.datatable');
+            if (dataTableEl) {
+                new simpleDatatables.DataTable(dataTableEl, {
+                    perPage: 5,
+                    perPageSelect: [5, 10, 25, 50],
+                    searchable: true,
+                    labels: {
+                        placeholder: "Search...",
+                        perPage: "entries per page",
+                        noRows: "No entries found",
+                        info: "Showing {start} to {end} of {rows} entries",
+                    }
+                });
+            }
+
+            // Handler Modal Delete
+            $(document).on('click', '.btn-delete', function() {
+                $('#form-delete').attr('action', $(this).data('route'));
+            });
         });
-
-        $('.form').parsley({
-            errorClass: 'is-invalid text-red',
-            successClass: 'is-valid',
-            errorsWrapper: '<span class="invalid-feedback"></span>',
-            errorTemplate: '<span></span>',
-            trigger: 'change'
-        });
-
-        $('#upload').on('change', function(event) {
-            $('#preview').attr('src', URL.createObjectURL(event.target.files[0]));
-        })
-
-        $('#upload-2').on('change', function(event) {
-            $('#preview-2').attr('src', URL.createObjectURL(event.target.files[0]));
-        })
-
-        $('.select2-default').select2({
-            theme: 'bootstrap-5',
-            width: "100%",
-        })
     </script>
     @stack('scripts')
 </body>
