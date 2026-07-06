@@ -15,6 +15,7 @@
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet">
 
     <link href="{{ asset('niceadmin/css/style.css') }}" rel="stylesheet">
+    <link href="{{ asset('niceadmin/css/custom.css') }}" rel="stylesheet">
 </head>
 
 <body>
@@ -32,21 +33,22 @@
                 <li class="nav-item dropdown pe-3">
                     <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#"
                         data-bs-toggle="dropdown">
-                        <img src="https://ui-avatars.com/api/?name=K.+Anderson&background=0D6EFD&color=fff"
+                        <img src="{{ Auth::user()->avatar ? asset('storage/' . Auth::user()->avatar) : asset('niceadmin/img/noprofil.png') }}"
                             alt="Profile" class="rounded-circle" width="36" height="36">
-                        <span class="d-none d-md-block dropdown-toggle ps-2 fw-semibold">K. Anderson</span>
+                        <span class="d-none d-md-block dropdown-toggle ps-2 fw-semibold">{{ Auth::user()->name }}</span>
                     </a>
 
                     <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
                         <li class="dropdown-header text-center p-3">
-                            <h6 class="fw-bold mb-0">K. Anderson</h6>
-                            <small class="text-muted">Web Designer</small>
+                            <h6 class="fw-bold mb-0">{{ Auth::user()->name }}</h6>
+                            <small class="text-muted">{{ Auth::user()->role }}</small>
                         </li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
                         <li>
-                            <a class="dropdown-item d-flex align-items-center gap-2" href="#">
+                            <a class="dropdown-item d-flex align-items-center gap-2"
+                                href="{{ route('dashboard.show') }}">
                                 <i class="bi bi-person"></i>
                                 <span>My Profile</span>
                             </a>
@@ -55,7 +57,18 @@
                             <hr class="dropdown-divider">
                         </li>
                         <li>
-                            <a class="dropdown-item d-flex align-items-center gap-2" href="#">
+                            <a class="dropdown-item d-flex align-items-center gap-2"
+                                href="{{ route('dashboard.edit') }}">
+                                <i class="bi bi-gear"></i>
+                                <span>Account Settings</span>
+                            </a>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li>
+                            <a class="dropdown-item d-flex align-items-center gap-2" data-bs-toggle="modal"
+                                data-bs-target="#logoutModal" style="cursor: pointer;">
                                 <i class="bi bi-box-arrow-right"></i>
                                 <span>Sign Out</span>
                             </a>
@@ -66,9 +79,18 @@
         </nav>
     </header>
 
-    <<aside id="sidebar" class="sidebar">
+    <aside id="sidebar" class="sidebar">
 
         <ul class="sidebar-nav" id="sidebar-nav">
+
+            @if (Auth::user()->role == 'Superadmin')
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="{{ route('user.index') }}">
+                        <i class='bx bx-user-pin'></i>
+                        <span>User</span>
+                    </a>
+                </li>
+            @endif
 
             <li class="nav-item">
                 <a class="nav-link collapsed" href="{{ route('dashboard.index') }}">
@@ -93,62 +115,83 @@
 
         </ul>
 
-        </aside>
+    </aside>
 
-        <main id="main" class="main" style="margin-top: 60px; padding: 20px;">
-            {{ $slot }}
-        </main>
+    <main id="main" class="main" style="margin-top: 60px; padding: 20px;">
+        {{ $slot }}
+    </main>
 
-        {{-- Modal Delete Global --}}
-        <div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <form action="" method="POST" id="form-delete">
-                        @method('DELETE')
-                        @csrf
-                        <div class="modal-body">
-                            <h5 class="mb-0">Anda yakin ingin menghapus data ini?</h5>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                            <button type="submit" class="btn btn-danger">Ya, Hapus data</button>
-                        </div>
-                    </form>
+    {{-- Modal Delete Global --}}
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form action="" method="POST" id="form-delete">
+                    @method('DELETE')
+                    @csrf
+                    <div class="modal-body">
+                        <h5 class="mb-0">Anda yakin ingin menghapus data ini?</h5>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-danger">Ya, Hapus data</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <p class="mb-0">Anda Yakin ingin logout?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Batal</button>
+                    <a href="{{ route('login.logout') }}" class="btn btn-primary">Ya, Saya ingin logout</a>
                 </div>
             </div>
         </div>
+    </div>
 
-        @stack('modals')
+    @stack('modals')
 
-        <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" type="text/javascript"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" type="text/javascript"></script>
 
-        <script>
-            $(document).ready(function() {
-                // Deteksi otomatis tabel ber-class 'datatable' dan paksa render fitur Search & Pagination
-                const dataTableEl = document.querySelector('.datatable');
-                if (dataTableEl) {
-                    new simpleDatatables.DataTable(dataTableEl, {
-                        perPage: 5,
-                        perPageSelect: [5, 10, 25, 50],
-                        searchable: true,
-                        labels: {
-                            placeholder: "Search...",
-                            perPage: "entries per page",
-                            noRows: "No entries found",
-                            info: "Showing {start} to {end} of {rows} entries",
-                        }
-                    });
-                }
+    <script>
+        $(document).ready(function() {
 
-                // Handler Modal Delete
-                $(document).on('click', '.btn-delete', function() {
-                    $('#form-delete').attr('action', $(this).data('route'));
-                });
+            // Toggle Sidebar (fungsi tombol garis 3 / hamburger)
+            $('.toggle-sidebar-btn').on('click', function() {
+                $('body').toggleClass('toggle-sidebar');
             });
-        </script>
-        @stack('scripts')
+
+            // Deteksi otomatis tabel ber-class 'datatable' dan paksa render fitur Search & Pagination
+            const dataTableEl = document.querySelector('.datatable');
+            if (dataTableEl) {
+                new simpleDatatables.DataTable(dataTableEl, {
+                    perPage: 5,
+                    perPageSelect: [5, 10, 25, 50],
+                    searchable: true,
+                    labels: {
+                        placeholder: "Search...",
+                        perPage: "entries per page",
+                        noRows: "No entries found",
+                        info: "Showing {start} to {end} of {rows} entries",
+                    }
+                });
+            }
+
+            // Handler Modal Delete
+            $(document).on('click', '.btn-delete', function() {
+                $('#form-delete').attr('action', $(this).data('route'));
+            });
+        });
+    </script>
+
+    @stack('scripts')
 </body>
 
 </html>
